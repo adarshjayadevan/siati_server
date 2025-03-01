@@ -64,11 +64,11 @@ const upcomingEvents = async (req, res) => {
   try {
     // let events = await Event.find().limit(4).lean();
     let events = await Event.aggregate([
-      {
-        $match: {
-          startDate: { $gte: new Date() }
-        }
-      },
+      // {
+      //   $match: {
+      //     startDate: { $gte: new Date() }
+      //   }
+      // },
       {
         $match: {
           isActive: true
