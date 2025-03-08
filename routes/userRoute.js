@@ -11,7 +11,8 @@ const {
     getNews, 
     pastEvents,
     getExhibitorsPage,
-    getExhibitors
+    getExhibitors,
+    upcomingEventsInner
 } = require('../controllers/userController');
 const { fileDownload, getMembershipPDF } = require('../controllers/fileController');
 const router = express.Router();
@@ -22,6 +23,7 @@ router.get('/',(req,res)=>{
 
 router.post('/addmembership',membershipForm);
 router.get('/upcomingevents',upcomingEvents);
+router.get('/upcomingeventsinner',upcomingEventsInner);
 router.get('/allevents',allEvents);
 router.get('/event/:eventId',getEvent);
 router.get('/banner',banner);

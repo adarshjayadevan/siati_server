@@ -98,6 +98,44 @@ const upcomingEvents = async (req, res) => {
   }
 }
 
+const upcomingEventsInner = async (req, res) => {
+  try {
+    // let events = await Event.find().limit(4).lean();
+    let events = await Event.aggregate([
+      {
+        $match: {
+          startDate: { $gte: new Date() }
+        }
+      },
+      {
+        $match: {
+          isActive: true
+        }
+      },
+      // {
+      //   $sort: { createdAt: -1 }
+      // },
+      {
+        $limit: 3
+      }
+    ])
+    events = events.map(elem => ({
+      ...elem,
+      startDate: moment(elem.startDate).format('ll'),
+      endDate: moment(elem.endDate).format('ll'),
+    }));
+    events = events.map(elem => ({
+      ...elem,
+      date: `${elem.startDate} - ${elem.endDate}`,
+    }));
+
+    res.status(200).json({ data: events });
+    // res.status(200).json({ data: [] });
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
 const getEvent = async (req, res) => {
   try {
     const { eventId } = req.params;
@@ -370,5 +408,6 @@ module.exports = {
   getNews,
   pastEvents,
   getExhibitorsPage,
-  getExhibitors
+  getExhibitors,
+  upcomingEventsInner
 }
