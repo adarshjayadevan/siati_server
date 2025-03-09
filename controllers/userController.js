@@ -211,6 +211,9 @@ const recentNews = async (req, res) => {
       //   }
       // },
       {
+        '$match':{isActive:true}
+      },
+      {
         $sort: { createdAt: -1 }
       },
       {
